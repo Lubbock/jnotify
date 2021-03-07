@@ -18,11 +18,16 @@ public class GitSyncJob implements Job{
     @Override
     public void doJob() {
         try {
+            JGitUtils.lock.lock();
             Git git = JGitUtils.openRpo(ctx.GitBasePkg);
-            JGitUtils.commit(git);
-            JGitUtils.push(git, ctx.GitUsername,ctx.GitPwd);
+            final boolean commit = JGitUtils.commit(git);
+            if (commit) {
+                JGitUtils.push(git, ctx.GitUsername,ctx.GitPwd);
+            }
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            JGitUtils.lock.unlock();
         }
     }
 }

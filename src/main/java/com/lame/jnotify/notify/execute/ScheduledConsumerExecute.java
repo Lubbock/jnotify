@@ -1,6 +1,7 @@
 package com.lame.jnotify.notify.execute;
 
 import com.lame.jnotify.notify.jobs.Job;
+import com.lame.jnotify.notify.jobs.RepoSyncJob;
 import com.lame.jnotify.register.RepoCtx;
 import com.lame.jnotify.utils.PropertiesUtils;
 
@@ -19,5 +20,10 @@ public class ScheduledConsumerExecute {
                 job.doJob();
             }
         }, 0, Integer.parseInt(ctx.SchedulePeriod), TimeUnit.SECONDS);
+
+        Job reposync = new RepoSyncJob(ctx);
+        execute.scheduleAtFixedRate(() -> {
+            reposync.doJob();
+        }, 0, Integer.parseInt(ctx.SchedulePullPeriod), TimeUnit.SECONDS);
     }
 }

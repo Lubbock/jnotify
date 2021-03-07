@@ -8,4 +8,5 @@ public class RepoCtx {
     public static String GitPwd = PropertiesUtils.getProperties("git.password");
     public static String GitBasePkg = PropertiesUtils.getBasePackage();
     public static String SchedulePeriod = PropertiesUtils.getProperties("schedule.period");
+    public static String  SchedulePullPeriod= PropertiesUtils.getProperties("schedule.pullperiod");
 }

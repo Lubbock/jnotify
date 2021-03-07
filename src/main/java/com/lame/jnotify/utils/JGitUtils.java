@@ -13,8 +13,12 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class JGitUtils {
+
+    public static ReentrantLock lock = new ReentrantLock();
+
     public static Git openRpo(String dir) {
         Git git = null;
         try {
@@ -40,16 +44,17 @@ public class JGitUtils {
         git.add().addFilepattern(".").call(); //添加全部文件
     }
 
-    public static void commit(Git git) throws Exception {
+    public static boolean commit(Git git) throws Exception {
         git.pull().call();
         final Status status = status(git);
         if (status.isClean()) {
             System.out.println("无文件变动，不做修改");
-            return;
+            return false;
         }
         add(git);
         RevCommit progos_commit = git.commit().setMessage("progos commit").call();
         System.out.println("文件提交 commit_id=" + progos_commit);
+        return true;
     }
 
     public static Status status(Git git)throws Exception {
@@ -69,5 +74,11 @@ public class JGitUtils {
                 .setRefSpecs(new RefSpec("master"))   //设置需要推送的分支,如果远端没有则创建
                 .setCredentialsProvider(provider)   //身份验证
                 .call();
+    }
+
+    public static void pull(Git git, String username, String password) throws Exception{
+        CredentialsProvider provider = new UsernamePasswordCredentialsProvider(username, password);  //生成身份信息
+        git.pull().setRemote("origin")
+                .setRemoteBranchName("master").setCredentialsProvider(provider).call();
     }
 }
