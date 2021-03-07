@@ -1,5 +1,7 @@
 package com.lame.jnotify.register;
 
+import com.lame.jnotify.utils.JFileUtil;
+import com.lame.jnotify.utils.JGitUtils;
 import com.lame.jnotify.utils.PropertiesUtils;
 import org.apache.commons.io.FileUtils;
 
@@ -17,13 +19,22 @@ public class RepoRegister {
         basePkg = PropertiesUtils.getBasePackage();
         File file = new File(basePkg);
         file.mkdirs();
+        JGitUtils.gitInit(
+                PropertiesUtils.getProperties("git.url")
+                , PropertiesUtils.getProperties("repo.base.package"));
         for (String spj : getSyncProject()) {
             String[] pjArray = spj.split(",");
             File temp = new File(basePkg, pjArray[1]);
             if (!temp.exists()) {
                 temp.mkdirs();
+                JFileUtil.copyTree(pjArray[0], pjArray[1], JFileUtil.PJ_DES_EXCLUDE);
             }
         }
+    }
+
+    public static void main(String[] args) throws Exception{
+        RepoRegister repoRegister = new RepoRegister();
+        repoRegister.init();
     }
 
     public void addNewProject(String f1) throws Exception {

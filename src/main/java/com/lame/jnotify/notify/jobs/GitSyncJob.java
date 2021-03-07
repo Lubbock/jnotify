@@ -19,7 +19,7 @@ public class GitSyncJob implements Job{
         try {
             Git git = JGitUtils.openRpo(sync);
             JGitUtils.commit(git);
-            JGitUtils.push(git, PropertiesUtils.getProperties("git.username"),"git.password");
+            JGitUtils.push(git, PropertiesUtils.getProperties("git.username"),PropertiesUtils.getProperties("git.password"));
         } catch (Exception e) {
             e.printStackTrace();
         }

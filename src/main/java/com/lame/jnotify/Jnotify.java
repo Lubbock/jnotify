@@ -7,6 +7,7 @@ import com.lame.jnotify.notify.jobs.GitSyncJob;
 import com.lame.jnotify.notify.jobs.Job;
 import com.lame.jnotify.register.RepoRegister;
 import com.lame.jnotify.utils.JFileUtil;
+import com.lame.jnotify.utils.PropertiesUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.HiddenFileFilter;
 import org.apache.commons.io.filefilter.IOFileFilter;
@@ -34,6 +35,7 @@ public class Jnotify {
 
     public static void main(String[] args) throws Exception{
         RepoRegister repoRegister = new RepoRegister();
+        repoRegister.init();
         List<FileAlterationObserver> observers = new ArrayList<>();
         List<Job> jobs = new ArrayList<>();
         repoRegister.foreachSyncProject(((source, syncpkg) -> {
@@ -42,7 +44,7 @@ public class Jnotify {
             FileAlterationObserver observer = jnotify(source, syncpkg);
             System.out.println(String.format("生成[%s]-[%s]文件夹同步配置", source, syncpkg));
             observers.add(observer);
-            Job job = new GitSyncJob(syncpkg);
+            Job job = new GitSyncJob(PropertiesUtils.getBasePackage());
             jobs.add(job);
         }));
         long interval = TimeUnit.SECONDS.toMillis(1);

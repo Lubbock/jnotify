@@ -1,6 +1,8 @@
 package com.lame.jnotify.utils;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -8,11 +10,12 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
 public class JGitUtils {
-    public static Git openRpo(String dir){
+    public static Git openRpo(String dir) {
         Git git = null;
         try {
             Repository repository = new FileRepositoryBuilder()
@@ -25,15 +28,37 @@ public class JGitUtils {
         return git;
     }
 
-    public static void add(Git git) throws Exception{
+    public static void gitInit(String gitUri, String dir) throws GitAPIException {
+        File gitexist = new File(dir, ".git");
+        if (!gitexist.exists()) {
+            Git.cloneRepository().setURI(gitUri).setDirectory(new File(dir)).call();
+        }
+    }
+
+    public static void add(Git git) throws Exception {
         git.add().addFilepattern(".").call(); //添加全部文件
     }
 
-    public static void commit(Git git)throws Exception {
+    public static void commit(Git git) throws Exception {
+        git.pull().call();
+        final Status status = status(git);
+        if (status.isClean()) {
+            System.out.println("无文件变动，不做修改");
+            return;
+        }
         add(git);
-        final RevCommit progos_commit = git.commit().setMessage("progos commit").call();
-
+        RevCommit progos_commit = git.commit().setMessage("progos commit").call();
         System.out.println(progos_commit);
+    }
+
+    public static Status status(Git git)throws Exception {
+        final Status call = git.status().call();
+        return call;
+    }
+
+    public static void main(String[] args) throws Exception{
+        final Git git = openRpo("D://temp");
+        status(git);
     }
 
     public static void push(Git git, String userName, String password) throws Exception {
@@ -43,11 +68,5 @@ public class JGitUtils {
                 .setRefSpecs(new RefSpec("master"))   //设置需要推送的分支,如果远端没有则创建
                 .setCredentialsProvider(provider)   //身份验证
                 .call();
-    }
-
-    public static void main(String[] args)throws Exception {
-        Git git = JGitUtils.openRpo("D:\\code\\Jnotify");
-        commit(git);
-        push(git,"249725579@qq.com","xxx");
     }
 }
