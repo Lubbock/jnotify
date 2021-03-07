@@ -1,15 +1,10 @@
 package com.lame.jnotify.notify.jobs;
 
 import com.lame.jnotify.utils.JGitUtils;
+import com.lame.jnotify.utils.PropertiesUtils;
 import org.eclipse.jgit.api.Git;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.Properties;
 
 public class GitSyncJob implements Job{
 
@@ -19,18 +14,12 @@ public class GitSyncJob implements Job{
         this.sync = sync;
     }
 
-    public static void main(String[] args) {
-
-        GitSyncJob gitSyncJob = new GitSyncJob("D:/code/Jnotify");
-        gitSyncJob.doJob();
-    }
-
     @Override
     public void doJob() {
         try {
             Git git = JGitUtils.openRpo(sync);
             JGitUtils.commit(git);
-            JGitUtils.push(git,"249725579@qq.com","xxx");
+            JGitUtils.push(git, PropertiesUtils.getProperties("git.username"),"git.password");
         } catch (Exception e) {
             e.printStackTrace();
         }

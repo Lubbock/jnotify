@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Vector;
 import java.util.function.Consumer;
 
 public class SyncFileListener extends FileAlterationListenerAdaptor {

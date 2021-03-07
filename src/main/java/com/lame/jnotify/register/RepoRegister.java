@@ -1,5 +1,6 @@
 package com.lame.jnotify.register;
 
+import com.lame.jnotify.utils.PropertiesUtils;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -13,9 +14,7 @@ public class RepoRegister {
     private String basePkg = "";
 
     public void init() throws Exception {
-        Properties properties = new Properties();
-        properties.load(Object.class.getResourceAsStream("/jnotify.properties"));
-        basePkg = properties.getProperty("repo.base.package");
+        basePkg = PropertiesUtils.getBasePackage();
         File file = new File(basePkg);
         file.mkdirs();
         for (String spj : getSyncProject()) {
