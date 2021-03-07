@@ -48,6 +48,6 @@ public class JGitUtils {
     public static void main(String[] args)throws Exception {
         Git git = JGitUtils.openRpo("D:\\code\\Jnotify");
         commit(git);
-        push(git,"249725579@qq.com","XMCX@guo123");
+        push(git,"249725579@qq.com","xxx");
     }
 }

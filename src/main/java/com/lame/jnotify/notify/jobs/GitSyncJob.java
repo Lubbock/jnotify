@@ -1,5 +1,8 @@
 package com.lame.jnotify.notify.jobs;
 
+import com.lame.jnotify.utils.JGitUtils;
+import org.eclipse.jgit.api.Git;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +27,12 @@ public class GitSyncJob implements Job{
 
     @Override
     public void doJob() {
-
+        try {
+            Git git = JGitUtils.openRpo(sync);
+            JGitUtils.commit(git);
+            JGitUtils.push(git,"249725579@qq.com","xxx");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
