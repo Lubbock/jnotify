@@ -11,20 +11,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class RepoRegister {
+public class GitRepoRegister {
 
-    private String basePkg = "";
+    private RepoCtx ctx;
+
+    public GitRepoRegister(RepoCtx ctx) {
+        this.ctx = ctx;
+    }
+
 
     public void init() throws Exception {
-        basePkg = PropertiesUtils.getBasePackage();
-        File file = new File(basePkg);
+        File file = new File(ctx.GitBasePkg);
         file.mkdirs();
         JGitUtils.gitInit(
-                PropertiesUtils.getProperties("git.url")
-                , PropertiesUtils.getProperties("repo.base.package"));
+                ctx.GitUri
+                , ctx.GitBasePkg);
         for (String spj : getSyncProject()) {
             String[] pjArray = spj.split(",");
-            File temp = new File(basePkg, pjArray[1]);
+            File temp = new File(ctx.GitBasePkg, pjArray[1]);
             if (!temp.exists()) {
                 temp.mkdirs();
                 JFileUtil.copyTree(pjArray[0], pjArray[1], JFileUtil.PJ_DES_EXCLUDE);
@@ -32,14 +36,10 @@ public class RepoRegister {
         }
     }
 
-    public static void main(String[] args) throws Exception{
-        RepoRegister repoRegister = new RepoRegister();
-        repoRegister.init();
-    }
 
     public void addNewProject(String f1) throws Exception {
         File souce = new File(f1);
-        File syncdir = new File(basePkg, souce.getName() + "-" + System.currentTimeMillis());
+        File syncdir = new File(ctx.GitBasePkg, souce.getName() + "-" + System.currentTimeMillis());
         String file = Object.class.getResource("/project").getFile();
         List<String> lines = new ArrayList<>();
         lines.add(souce.getAbsolutePath() + "," + syncdir.getAbsolutePath());

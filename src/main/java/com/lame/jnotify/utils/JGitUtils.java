@@ -31,6 +31,7 @@ public class JGitUtils {
     public static void gitInit(String gitUri, String dir) throws GitAPIException {
         File gitexist = new File(dir, ".git");
         if (!gitexist.exists()) {
+            System.out.println("项目不存在，重新初始化项目" + dir);
             Git.cloneRepository().setURI(gitUri).setDirectory(new File(dir)).call();
         }
     }
@@ -48,7 +49,7 @@ public class JGitUtils {
         }
         add(git);
         RevCommit progos_commit = git.commit().setMessage("progos commit").call();
-        System.out.println(progos_commit);
+        System.out.println("文件提交 commit_id=" + progos_commit);
     }
 
     public static Status status(Git git)throws Exception {

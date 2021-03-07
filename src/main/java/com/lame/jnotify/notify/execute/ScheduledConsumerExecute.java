@@ -1,6 +1,7 @@
 package com.lame.jnotify.notify.execute;
 
 import com.lame.jnotify.notify.jobs.Job;
+import com.lame.jnotify.register.RepoCtx;
 import com.lame.jnotify.utils.PropertiesUtils;
 
 import java.util.List;
@@ -12,11 +13,11 @@ public class ScheduledConsumerExecute {
 
     public static ScheduledExecutorService execute = Executors.newSingleThreadScheduledExecutor();
 
-    public static void run(List<Job> jobs)  {
+    public static void run(RepoCtx ctx, List<Job> jobs) {
         execute.scheduleAtFixedRate(() -> {
             for (Job job : jobs) {
                 job.doJob();
             }
-        }, 0, Integer.parseInt(PropertiesUtils.getProperties("schedule.period")),TimeUnit.SECONDS);
+        }, 0, Integer.parseInt(ctx.SchedulePeriod), TimeUnit.SECONDS);
     }
 }

@@ -5,7 +5,8 @@ import com.lame.jnotify.notify.execute.ConsumerExecute;
 import com.lame.jnotify.notify.execute.ScheduledConsumerExecute;
 import com.lame.jnotify.notify.jobs.GitSyncJob;
 import com.lame.jnotify.notify.jobs.Job;
-import com.lame.jnotify.register.RepoRegister;
+import com.lame.jnotify.register.GitRepoRegister;
+import com.lame.jnotify.register.RepoCtx;
 import com.lame.jnotify.utils.JFileUtil;
 import com.lame.jnotify.utils.PropertiesUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
@@ -34,17 +35,18 @@ public class Jnotify {
 
 
     public static void main(String[] args) throws Exception{
-        RepoRegister repoRegister = new RepoRegister();
-        repoRegister.init();
+        final RepoCtx ctx = new RepoCtx();
+        GitRepoRegister gitRepoRegister = new GitRepoRegister(ctx);
+        gitRepoRegister.init();
         List<FileAlterationObserver> observers = new ArrayList<>();
         List<Job> jobs = new ArrayList<>();
-        repoRegister.foreachSyncProject(((source, syncpkg) -> {
+        gitRepoRegister.foreachSyncProject(((source, syncpkg) -> {
             System.out.println(String.format("检测到注册项目[%s]-[%s]\n准备第一次全文件夹同步", source, syncpkg));
             JFileUtil.copyTree(source, syncpkg, JFileUtil.PJ_DES_EXCLUDE);
             FileAlterationObserver observer = jnotify(source, syncpkg);
             System.out.println(String.format("生成[%s]-[%s]文件夹同步配置", source, syncpkg));
             observers.add(observer);
-            Job job = new GitSyncJob(PropertiesUtils.getBasePackage());
+            Job job = new GitSyncJob(ctx);
             jobs.add(job);
         }));
         long interval = TimeUnit.SECONDS.toMillis(1);
@@ -52,6 +54,6 @@ public class Jnotify {
         monitor.start();
         ConsumerExecute.start();
         System.out.println("开启文件同步服务");
-        ScheduledConsumerExecute.run(jobs);
+        ScheduledConsumerExecute.run(ctx, jobs);
     }
 }
