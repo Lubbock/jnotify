@@ -2,7 +2,9 @@ package com.lame.jnotify.notify.execute;
 
 import com.lame.jnotify.notify.jobs.Job;
 import com.lame.jnotify.notify.jobs.RepoSyncJob;
+import com.lame.jnotify.register.GitRepoRegister;
 import com.lame.jnotify.register.RepoCtx;
+import com.lame.jnotify.utils.JFileUtil;
 import com.lame.jnotify.utils.PropertiesUtils;
 
 import java.util.List;

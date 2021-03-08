@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: com.lame.jnotify.Jnotify
-Class-Path: slf4j-api-1.7.30.jar JavaEWAH-1.1.7.jar picocli-4.6.1.jar co
- mmons-io-2.8.0.jar org.eclipse.jgit-5.10.0.202012080955-r.jar commons-l
- ang3-3.12.0.jar
-
