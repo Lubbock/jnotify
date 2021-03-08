@@ -4,12 +4,14 @@ import com.lame.jnotify.utils.JFileUtil;
 import com.lame.jnotify.utils.JGitUtils;
 import com.lame.jnotify.utils.PropertiesUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 public class GitRepoRegister {
 
@@ -23,12 +25,13 @@ public class GitRepoRegister {
     public void init() throws Exception {
         File file = new File(ctx.GitBasePkg);
         file.mkdirs();
+        System.out.println(ctx.GitUri);
         JGitUtils.gitInit(
                 ctx.GitUri
                 , ctx.GitBasePkg);
         for (String spj : getSyncProject()) {
             String[] pjArray = spj.split(",");
-            File temp = new File(ctx.GitBasePkg, pjArray[1]);
+            File temp = new File(pjArray[1]);
             if (!temp.exists()) {
                 temp.mkdirs();
                 JFileUtil.copyTree(pjArray[0], pjArray[1], JFileUtil.PJ_DES_EXCLUDE);
@@ -38,18 +41,20 @@ public class GitRepoRegister {
 
 
     public void addNewProject(String f1) throws Exception {
-        File souce = new File(f1);
-        File syncdir = new File(ctx.GitBasePkg, souce.getName() + "-" + System.currentTimeMillis());
-        String file = Object.class.getResource("/project").getFile();
-        List<String> lines = new ArrayList<>();
-        lines.add(souce.getAbsolutePath() + "," + syncdir.getAbsolutePath());
-        FileUtils.writeLines(new File(file), "utf-8", lines, true);
+        if (!RepoCtx.MonitorDir.contains(f1)) {
+            File souce = new File(f1);
+            File syncdir = new File(ctx.GitBasePkg, souce.getName() + "-" + System.currentTimeMillis());
+            String file = "./project";
+            List<String> lines = new ArrayList<>();
+            lines.add(souce.getAbsolutePath() + "," + syncdir.getAbsolutePath());
+            FileUtils.writeLines(new File(file), "utf-8", lines, true);
+        }
     }
 
     public List<String> getSyncProject() throws Exception {
-        String file = Object.class.getResource("/project").getFile();
+        String file = "./project";
         List<String> pjs = FileUtils.readLines(new File(file), Charset.forName("utf-8"));
-        return pjs;
+        return pjs.stream().filter(e -> StringUtils.isNotBlank(e)).collect(Collectors.toList());
     }
 
     public interface RepoDes{

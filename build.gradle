@@ -1,20 +1,70 @@
+buildscript {
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url = 'http://repo.maven.apache.org/maven2' }
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.anarres.gradle:gradle-velocity-plugin:1.0.0")
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE'
+    }
+}
 plugins {
     id 'java'
+    id 'application'
 }
-
-group 'org.example'
-version '1.0-SNAPSHOT'
-
+apply plugin: 'idea'
+apply plugin: 'velocity'
+group 'com.lame.jnotify'
+version '1.0'
+apply plugin: 'java'
+// 指定JDK版本
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
 repositories {
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    jcenter()
+    maven { url = 'http://repo.maven.apache.org/maven2' }
     mavenCentral()
 }
 
 dependencies {
+    compile 'info.picocli:picocli:4.6.1'
     // https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit
-    implementation group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '5.10.0.202012080955-r'
+    compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '5.10.0.202012080955-r'
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
     // https://mvnrepository.com/artifact/commons-io/commons-io
-    implementation group: 'commons-io', name: 'commons-io', version: '2.8.0'
+    compile group: 'commons-io', name: 'commons-io', version: '2.8.0'
     testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+mainClassName = 'com.lame.jnotify.Jnotify'
+application {
+    mainClass = "com.lame.jnotify.Jnotify"
+}
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.lame.jnotify.Jnotify'
+    }
+}
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+// 指定编码格式
+[compileJava,compileTestJava,javadoc]*.options*.encoding = 'UTF-8'
+
+//清除上次的编译过的文件
+task clearPj(type: Delete) {
+    delete 'build', 'target'
+}
+task copyJar(type: Copy) {
+    from configurations.runtime
+    into('build/libs/libs')
+}
+//把JAR复制到目标目录
+task release(type: Copy, dependsOn: [build, copyJar]) {
 }

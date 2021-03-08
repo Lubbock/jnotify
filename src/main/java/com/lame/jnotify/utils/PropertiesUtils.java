@@ -1,6 +1,9 @@
 package com.lame.jnotify.utils;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Properties;
 
 public class PropertiesUtils {
@@ -8,8 +11,8 @@ public class PropertiesUtils {
 
     static {
         properties = new Properties();
-        try {
-            properties.load(Object.class.getResourceAsStream("/jnotify.properties"));
+        try( FileInputStream fis = new FileInputStream("./jnotify.properties")) {
+            properties.load(fis);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.lame.jnotify.Jnotify
+Class-Path: libs/*.jar
+

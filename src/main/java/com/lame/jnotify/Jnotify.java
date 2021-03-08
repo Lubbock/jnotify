@@ -41,13 +41,16 @@ public class Jnotify {
         List<FileAlterationObserver> observers = new ArrayList<>();
         List<Job> jobs = new ArrayList<>();
         gitRepoRegister.foreachSyncProject(((source, syncpkg) -> {
-            System.out.println(String.format("检测到注册项目[%s]-[%s]\n准备第一次全文件夹同步", source, syncpkg));
-            JFileUtil.copyTree(source, syncpkg, JFileUtil.PJ_DES_EXCLUDE);
-            FileAlterationObserver observer = jnotify(source, syncpkg);
-            System.out.println(String.format("生成[%s]-[%s]文件夹同步配置", source, syncpkg));
-            observers.add(observer);
-            Job job = new GitSyncJob(ctx);
-            jobs.add(job);
+            if (!RepoCtx.MonitorDir.contains(source)){
+                System.out.println(String.format("检测到注册项目[%s]-[%s]\n准备第一次全文件夹同步", source, syncpkg));
+                JFileUtil.copyTree(source, syncpkg, JFileUtil.PJ_DES_EXCLUDE);
+                FileAlterationObserver observer = jnotify(source, syncpkg);
+                System.out.println(String.format("生成[%s]-[%s]文件夹同步配置", source, syncpkg));
+                observers.add(observer);
+                Job job = new GitSyncJob(ctx);
+                jobs.add(job);
+            }
+            RepoCtx.MonitorDir.add(source);
         }));
         long interval = TimeUnit.SECONDS.toMillis(1);
         FileAlterationMonitor monitor = new FileAlterationMonitor(interval, observers.toArray(new FileAlterationObserver[0]));
