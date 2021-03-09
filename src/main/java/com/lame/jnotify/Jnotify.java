@@ -88,13 +88,15 @@ public class Jnotify {
         GitRepoRegister gitRepoRegister = new GitRepoRegister(ctx);
         gitRepoRegister.init();
         System.out.println("初始化项目同步空间");
-        FileUtils.copyFile(new File("./jnotify.properties"), new File(basePackage, "jnotify.properties"));
-        FileUtils.copyFile(new File("./project"), new File(basePackage, "project"));
-        FileUtils.copyFile(new File("./start.sh"), new File(basePackage, "start.sh"));
-        FileUtils.copyFile(new File("./stop.sh"), new File(basePackage, "stop.sh"));
-        FileUtils.copyFile(new File("./sync.sh"), new File(basePackage, "sync.sh"));
-        FileUtils.copyFile(new File("./Jnotify-1.0.jar"), new File(basePackage, "Jnotify-1.0.jar"));
-        FileUtils.copyDirectoryToDirectory(new File("./libs"), new File(basePackage, "libs"));
+        File f = new File(".");
+        final File[] files = f.listFiles();
+        for (File file : files) {
+            if (file.isFile()){
+                FileUtils.copyFile(file, new File(basePackage, file.getName()));
+            }else {
+                FileUtils.copyDirectory(file, new File(basePackage, file.getName()));
+            }
+        }
         System.out.println("项目安装成功");
     }
 
