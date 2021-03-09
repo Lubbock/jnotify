@@ -32,11 +32,12 @@ public class JGitUtils {
         return git;
     }
 
-    public static void gitInit(String gitUri, String dir) throws GitAPIException {
+    public static void gitInit(String gitUri, String dir,String username,String password) throws GitAPIException {
         File gitexist = new File(dir, ".git");
         if (!gitexist.exists()) {
             System.out.println("项目不存在，重新初始化项目" + dir);
-            Git.cloneRepository().setURI(gitUri).setDirectory(new File(dir)).call();
+            CredentialsProvider provider = new UsernamePasswordCredentialsProvider(username, password);  //生成身份信息
+            Git.cloneRepository().setURI(gitUri).setDirectory(new File(dir)).setCredentialsProvider(provider).call();
         }
     }
 
@@ -44,8 +45,12 @@ public class JGitUtils {
         git.add().addFilepattern(".").call(); //添加全部文件
     }
 
-    public static boolean commit(Git git) throws Exception {
-        git.pull().call();
+    public static boolean commit(Git git,String username,String password) throws Exception {
+        CredentialsProvider provider = new UsernamePasswordCredentialsProvider(username, password);  //生成身份信息
+//        git.fetch().setRemote("origin").setRefSpecs(new RefSpec("master")).setCredentialsProvider(provider).call();
+        git.pull().setRemote("origin")
+                .setRemoteBranchName("master")
+                .setCredentialsProvider(provider).call();
         final Status status = status(git);
         if (status.isClean()) {
             System.out.println("无文件变动，不做修改");

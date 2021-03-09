@@ -28,7 +28,7 @@ public class GitRepoRegister {
         System.out.println(ctx.GitUri);
         JGitUtils.gitInit(
                 ctx.GitUri
-                , ctx.GitBasePkg);
+                , ctx.GitBasePkg, ctx.GitUsername, ctx.GitPwd);
         for (String spj : getSyncProject()) {
             String[] pjArray = spj.split(",");
             File temp = new File(pjArray[1]);

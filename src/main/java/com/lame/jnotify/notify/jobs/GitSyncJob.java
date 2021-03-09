@@ -20,7 +20,7 @@ public class GitSyncJob implements Job{
         try {
             JGitUtils.lock.lock();
             Git git = JGitUtils.openRpo(ctx.GitBasePkg);
-            final boolean commit = JGitUtils.commit(git);
+            final boolean commit = JGitUtils.commit(git, ctx.GitUsername,ctx.GitPwd);
             if (commit) {
                 JGitUtils.push(git, ctx.GitUsername,ctx.GitPwd);
             }
