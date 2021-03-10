@@ -57,7 +57,7 @@ public class JGitUtils {
             return false;
         }
         add(git);
-        RevCommit progos_commit = git.commit().setMessage("progos commit").call();
+        RevCommit progos_commit = git.commit().setAll(true).setMessage("progos commit").call();
         System.out.println("文件提交 commit_id=" + progos_commit);
         return true;
     }
