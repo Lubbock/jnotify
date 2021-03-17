@@ -103,13 +103,28 @@ public class Jnotify {
     public static void main(String[] args) throws Exception{
         if (args.length > 0) {
             String arg = args[0];
-            if (arg.equals("1")) {
-                install();
-            }else {
-                //从仓库同步到本地文件
-                System.out.println("从仓库同步到本地文件");
-                realsync();
+            switch (arg) {
+                case "1":
+                    PropertiesUtils.initConfig("./jnotify.properties");
+                    GitRepoRegister.PJ_PATH = "./project";
+                    install();
+                    break;
+                case "0":
+                    PropertiesUtils.initConfig("./jnotify.properties");
+                    GitRepoRegister.PJ_PATH = "./project";
+                    realsync();
+                    break;
+                case "2":
+                    String propsPath = args[1];
+                    String pjPath = args[2];
+                    PropertiesUtils.initConfig(propsPath);
+                    GitRepoRegister.PJ_PATH = pjPath;
+                    break;
+                default:
+                    System.out.println("不合法参数！");
+                    break;
             }
+
         }else {
             System.out.println("启动文件监控: 从本地文件同步到仓库");
             monitor();

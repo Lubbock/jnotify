@@ -1,17 +1,16 @@
 package com.lame.jnotify.utils;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Properties;
 
 public class PropertiesUtils {
     static Properties properties;
 
-    static {
+
+    public static void initConfig(String propPath) {
         properties = new Properties();
-        try( FileInputStream fis = new FileInputStream("./jnotify.properties")) {
+        try (FileInputStream fis = new FileInputStream(propPath)) {
             properties.load(fis);
         } catch (IOException e) {
             e.printStackTrace();

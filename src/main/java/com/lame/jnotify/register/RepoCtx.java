@@ -12,7 +12,5 @@ public class RepoCtx {
     public static String GitBasePkg = PropertiesUtils.getBasePackage();
     public static String SchedulePeriod = PropertiesUtils.getProperties("schedule.period");
     public static String  SchedulePullPeriod= PropertiesUtils.getProperties("schedule.pullperiod");
-
     public static Set<String> MonitorDir = new HashSet<>();
-
 }
