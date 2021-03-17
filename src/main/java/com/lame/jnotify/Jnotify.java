@@ -115,10 +115,19 @@ public class Jnotify {
                     realsync();
                     break;
                 case "2":
+                    System.out.println("初始化本地文件");
                     String propsPath = args[1];
                     String pjPath = args[2];
                     PropertiesUtils.initConfig(propsPath);
                     GitRepoRegister.PJ_PATH = pjPath;
+                    realsync();
+                    System.out.println("本地文件初始化结束");
+                    break;
+                case "3":
+                    System.out.println("开始监控本地文件");
+                    PropertiesUtils.initConfig(args[1]);
+                    GitRepoRegister.PJ_PATH = args[2];
+                    monitor();
                     break;
                 default:
                     System.out.println("不合法参数！");
@@ -126,8 +135,7 @@ public class Jnotify {
             }
 
         }else {
-            System.out.println("启动文件监控: 从本地文件同步到仓库");
-            monitor();
+            System.out.println("启动文件监控: 非法请求");
         }
     }
 }
