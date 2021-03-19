@@ -1,2 +1,5 @@
-rootProject.name = 'Jnotify'
+rootProject.name = 'jnotify'
+include 'jnotify-ui'
+include 'jnotify-core'
+include 'jnotify-base'
 

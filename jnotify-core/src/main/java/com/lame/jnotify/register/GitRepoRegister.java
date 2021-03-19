@@ -2,7 +2,6 @@ package com.lame.jnotify.register;
 
 import com.lame.jnotify.utils.JFileUtil;
 import com.lame.jnotify.utils.JGitUtils;
-import com.lame.jnotify.utils.PropertiesUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -10,7 +9,6 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class GitRepoRegister {
