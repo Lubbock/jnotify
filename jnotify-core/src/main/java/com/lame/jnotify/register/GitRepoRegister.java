@@ -23,27 +23,27 @@ public class GitRepoRegister {
 
 
     public void init() throws Exception {
-        File file = new File(ctx.GitBasePkg);
+        File file = new File(ctx.GitBasePkg());
         file.mkdirs();
-        System.out.println(ctx.GitUri);
+        System.out.println(ctx.GitUri());
         JGitUtils.gitInit(
-                ctx.GitUri
-                , ctx.GitBasePkg, ctx.GitUsername, ctx.GitPwd);
+                ctx.GitUri()
+                , ctx.GitBasePkg(), ctx.GitUsername(), ctx.GitPwd());
         for (String spj : getSyncProject()) {
             String[] pjArray = spj.split(",");
             File temp = new File(pjArray[1]);
             if (!temp.exists()) {
                 temp.mkdirs();
-                JFileUtil.copyTree(pjArray[0], RepoCtx.GitBasePkg + File.separator + pjArray[1], JFileUtil.PJ_DES_EXCLUDE);
+                JFileUtil.copyTree(pjArray[0], ctx.GitBasePkg() + File.separator + pjArray[1], JFileUtil.PJ_DES_EXCLUDE);
             }
         }
     }
 
 
     public void addNewProject(String f1) throws Exception {
-        if (!RepoCtx.MonitorDir.contains(f1)) {
+        if (!ctx.MonitorDir.contains(f1)) {
             File souce = new File(f1);
-            File syncdir = new File(ctx.GitBasePkg, souce.getName() + "-" + System.currentTimeMillis());
+            File syncdir = new File(ctx.GitBasePkg(), souce.getName() + "-" + System.currentTimeMillis());
             List<String> lines = new ArrayList<>();
             lines.add(souce.getAbsolutePath() + "," + syncdir.getAbsolutePath());
             FileUtils.writeLines(new File(PJ_PATH), "utf-8", lines, true);
@@ -64,7 +64,7 @@ public class GitRepoRegister {
         syncProject.stream().forEach(s -> {
             String[] split = s.split(",");
             try {
-                repoDes.accept(split[0], RepoCtx.GitBasePkg + File.separator +split[1]);
+                repoDes.accept(split[0], ctx.GitBasePkg() + File.separator +split[1]);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -18,11 +18,11 @@ public class ScheduledConsumerExecute {
             for (Job job : jobs) {
                 job.doJob();
             }
-        }, 0, Integer.parseInt(ctx.SchedulePeriod), TimeUnit.SECONDS);
+        }, 0, ctx.SchedulePeriod, TimeUnit.SECONDS);
 
         Job reposync = new RepoSyncJob(ctx);
         execute.scheduleAtFixedRate(() -> {
             reposync.doJob();
-        }, 0, Integer.parseInt(ctx.SchedulePullPeriod), TimeUnit.SECONDS);
+        }, 0, ctx.SchedulePullPeriod, TimeUnit.SECONDS);
     }
 }

@@ -16,10 +16,10 @@ public class GitSyncJob implements Job{
     public void doJob() {
         try {
             JGitUtils.lock.lock();
-            Git git = JGitUtils.openRpo(ctx.GitBasePkg);
-            final boolean commit = JGitUtils.commit(git, ctx.GitUsername,ctx.GitPwd);
+            Git git = JGitUtils.openRpo(ctx.GitBasePkg());
+            final boolean commit = JGitUtils.commit(git, ctx.GitUsername(),ctx.GitPwd());
             if (commit) {
-                JGitUtils.push(git, ctx.GitUsername,ctx.GitPwd);
+                JGitUtils.push(git, ctx.GitUsername(),ctx.GitPwd());
             }
         } catch (Exception e) {
             e.printStackTrace();
