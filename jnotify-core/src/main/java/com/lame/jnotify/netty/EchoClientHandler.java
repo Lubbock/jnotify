@@ -4,16 +4,18 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.util.CharsetUtil;
 
-public class EchoClientHandler extends ChannelInboundHandlerAdapter {
+public class EchoClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
-    private final ByteBuf firstMessage;
 
     public EchoClientHandler() {
-        firstMessage = Unpooled.buffer(EchoClient.SIZE);
-        for (int i = 0; i < firstMessage.capacity(); i++) {
-            firstMessage.writeByte((byte) i);
-        }
+    }
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
+        System.out.println("Client received: " + msg.toString(CharsetUtil.UTF_8));
     }
 
     @Override
@@ -28,12 +30,8 @@ public class EchoClientHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ctx.write(msg);
-    }
-
-    @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ctx.writeAndFlush(firstMessage);
+        ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!", //2
+                CharsetUtil.UTF_8));
     }
 }
