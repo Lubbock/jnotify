@@ -1,4 +1,4 @@
-package com.lame.jnotify.netty;
+package com.lame.jnotify.netty.echo;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
