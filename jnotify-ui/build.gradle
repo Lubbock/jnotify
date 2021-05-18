@@ -22,6 +22,7 @@ tasks.withType(JavaCompile) {
 }
 // 指定编码格式
 [compileJava,compileTestJava,javadoc]*.options*.encoding = 'UTF-8'
+sourceSets.main.resources.srcDirs = ["src/main/java","src/main/resources"]
 repositories {
     maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     jcenter()
