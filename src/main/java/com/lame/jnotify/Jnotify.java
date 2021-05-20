@@ -25,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Jnotify {
 
+    boolean install = false;
+
     public static FileAlterationObserver jnotify(String f1, String f2) {
         IOFileFilter directories = FileFilterUtils.and(FileFilterUtils.directoryFileFilter(), HiddenFileFilter.VISIBLE);
         IOFileFilter files = FileFilterUtils.and(
