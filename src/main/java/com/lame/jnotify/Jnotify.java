@@ -115,7 +115,7 @@ public class Jnotify {
         if (args.length > 0) {
             String arg = args[0];
             switch (arg) {
-                case "2":
+                case "--pull":
                     System.out.println("初始化本地文件");
                     String propsPath = args[1];
                     String pjPath = args[2];
@@ -125,7 +125,7 @@ public class Jnotify {
                     inspectMe(propsPath);
                     System.out.println("本地文件初始化结束");
                     break;
-                case "3":
+                case "--pull-monitor":
                     System.out.println("开始监控本地文件");
                     PropertiesUtils.initConfig(args[1]);
                     GitRepoRegister.PJ_PATH = args[2];
