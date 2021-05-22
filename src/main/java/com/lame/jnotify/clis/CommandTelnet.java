@@ -41,7 +41,7 @@ public class CommandTelnet implements Runnable {
 
     @Override
     public void run() {
-        PropertiesUtils.initConfig("/media/lame/0DD80F300DD80F30/code/jnotify/src/main/resources/jnotify.properties");
+    PropertiesUtils.initConfig("D:\\code\\Jnotify\\src\\main\\resources\\jnotify.properties");
         this.PORT = Integer.parseInt(PropertiesUtils.getProperties("cmd.port"));
         try {
             open();

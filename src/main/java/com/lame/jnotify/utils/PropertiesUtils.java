@@ -6,8 +6,6 @@ import java.util.Properties;
 
 public class PropertiesUtils {
     static Properties properties;
-
-
     public static void initConfig(String propPath) {
         properties = new Properties();
         try (FileInputStream fis = new FileInputStream(propPath)) {

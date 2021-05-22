@@ -6,7 +6,7 @@ import com.lame.jnotify.utils.PropertiesUtils;
 
 import java.util.List;
 
-public class RealsyncCmd implements Command {
+public class RealsyncCmd implements Command,Help {
     @Override
     public void execute(CmdCtx ctx, List<String> cmdArray) {
         if (cmdArray.size() > 1) {
@@ -24,7 +24,6 @@ public class RealsyncCmd implements Command {
             }
         }else {
             //初始化所有目录
-            PropertiesUtils.initConfig("./jnotify.properties");
             GitRepoRegister.PJ_PATH = "./project";
             try {
                 Jnotify.realsync();
@@ -34,5 +33,13 @@ public class RealsyncCmd implements Command {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public String helpInfo() {
+        return "\n"
+                +" git仓库同步到本地目录，会覆盖掉本地的文件夹 参数大于2的时候，指定配置文件 \n"
+                +""
+                +"\n";
     }
 }
