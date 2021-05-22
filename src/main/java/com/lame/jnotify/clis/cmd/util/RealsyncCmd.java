@@ -1,12 +1,15 @@
-package com.lame.jnotify.clis.cmd;
+package com.lame.jnotify.clis.cmd.util;
 
 import com.lame.jnotify.Jnotify;
+import com.lame.jnotify.clis.cmd.CmdCtx;
+import com.lame.jnotify.clis.cmd.Command;
+import com.lame.jnotify.clis.cmd.Help;
 import com.lame.jnotify.register.GitRepoRegister;
 import com.lame.jnotify.utils.PropertiesUtils;
 
 import java.util.List;
 
-public class RealsyncCmd implements Command,Help {
+public class RealsyncCmd implements Command, Help {
     @Override
     public void execute(CmdCtx ctx, List<String> cmdArray) {
         if (cmdArray.size() > 1) {

@@ -1,5 +1,8 @@
-package com.lame.jnotify.clis.cmd;
+package com.lame.jnotify.clis.cmd.util;
 
+import com.lame.jnotify.clis.cmd.ClientDirect;
+import com.lame.jnotify.clis.cmd.CmdCtx;
+import com.lame.jnotify.clis.cmd.Command;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 

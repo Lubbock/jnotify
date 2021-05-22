@@ -1,8 +1,11 @@
-package com.lame.jnotify.clis.cmd;
+package com.lame.jnotify.clis.cmd.util;
+
+import com.lame.jnotify.clis.cmd.CmdCtx;
+import com.lame.jnotify.clis.cmd.Command;
 
 import java.util.List;
 
-public class HelpCmd implements Command{
+public class HelpCmd implements Command {
 
     String banner = ",--------.              ,------.  ,--.        \n" +
             "'--.  .--',--,--.,--.--.|  .-.  \\ `--' ,---.  \n" +

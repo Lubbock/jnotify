@@ -1,5 +1,6 @@
 package com.lame.jnotify.clis.cmd;
 
+import com.lame.jnotify.clis.cmd.util.SayHaiCommand;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
@@ -33,7 +34,7 @@ public class Jnotify {
 
     //命令行参数解析
     private String cmdInfo;
-    private static String cmdPkg = "com.lame.jnotify.clis.cmd";
+    private static String cmdPkg = "com.lame.jnotify.clis.cmd.util";
 
     private Map<String, Command> commands = new HashMap<>();
 
