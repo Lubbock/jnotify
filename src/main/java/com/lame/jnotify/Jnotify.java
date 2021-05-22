@@ -102,6 +102,13 @@ public class Jnotify {
         System.out.println("项目安装成功");
     }
 
+    /**
+     * 通过指定不同的配置文件 和 目录对应文件来完成
+     * 1 jnotify 安装命令，复制文件到本地
+     * 0 从远程同步仓库到本地，然后复制文件到本地监控文件夹
+     * 2 同上，但是可以从外部获取命令
+     * 3 监控本地文件夹
+     * **/
     public static void main(String[] args) throws Exception{
         if (args.length > 0) {
             String arg = args[0];
