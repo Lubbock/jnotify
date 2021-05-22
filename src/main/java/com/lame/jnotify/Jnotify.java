@@ -1,14 +1,14 @@
 package com.lame.jnotify;
 
-import com.lame.jnotify.notify.SyncFileListener;
-import com.lame.jnotify.notify.execute.ConsumerExecute;
-import com.lame.jnotify.notify.execute.ScheduledConsumerExecute;
-import com.lame.jnotify.notify.jobs.GitSyncJob;
-import com.lame.jnotify.notify.jobs.Job;
-import com.lame.jnotify.notify.jobs.RealDirSyncJob;
-import com.lame.jnotify.notify.jobs.RepoSyncJob;
-import com.lame.jnotify.register.GitRepoRegister;
-import com.lame.jnotify.register.RepoCtx;
+import com.lame.jnotify.clis.controller.SingProcCli;
+import com.lame.jnotify.core.SyncFileListener;
+import com.lame.jnotify.core.execute.ConsumerExecute;
+import com.lame.jnotify.core.execute.ScheduledConsumerExecute;
+import com.lame.jnotify.core.jobs.GitSyncJob;
+import com.lame.jnotify.core.jobs.Job;
+import com.lame.jnotify.core.jobs.RepoSyncJob;
+import com.lame.jnotify.core.register.GitRepoRegister;
+import com.lame.jnotify.core.register.RepoCtx;
 import com.lame.jnotify.utils.JFileUtil;
 import com.lame.jnotify.utils.PropertiesUtils;
 import org.apache.commons.io.FileUtils;
@@ -102,27 +102,19 @@ public class Jnotify {
         System.out.println("项目安装成功");
     }
 
+  public static void inspectMe(String properties) {
+        new Thread(new SingProcCli(properties)).start();
+  }
+
     /**
      * 通过指定不同的配置文件 和 目录对应文件来完成
-     * 1 jnotify 安装命令，复制文件到本地
-     * 0 从远程同步仓库到本地，然后复制文件到本地监控文件夹
-     * 2 同上，但是可以从外部获取命令
-     * 3 监控本地文件夹
+     * 2 从远程同步仓库到本地，然后复制文件到本地监控文件夹 (未启动监控)
+     * 3 2 + 启动监控
      * **/
     public static void main(String[] args) throws Exception{
         if (args.length > 0) {
             String arg = args[0];
             switch (arg) {
-                case "1":
-                    PropertiesUtils.initConfig("./jnotify.properties");
-                    GitRepoRegister.PJ_PATH = "./project";
-                    install();
-                    break;
-                case "0":
-                    PropertiesUtils.initConfig("./jnotify.properties");
-                    GitRepoRegister.PJ_PATH = "./project";
-                    realsync();
-                    break;
                 case "2":
                     System.out.println("初始化本地文件");
                     String propsPath = args[1];
@@ -130,12 +122,14 @@ public class Jnotify {
                     PropertiesUtils.initConfig(propsPath);
                     GitRepoRegister.PJ_PATH = pjPath;
                     realsync();
+                    inspectMe(propsPath);
                     System.out.println("本地文件初始化结束");
                     break;
                 case "3":
                     System.out.println("开始监控本地文件");
                     PropertiesUtils.initConfig(args[1]);
                     GitRepoRegister.PJ_PATH = args[2];
+                    inspectMe(args[1]);
                     monitor();
                     break;
                 default:

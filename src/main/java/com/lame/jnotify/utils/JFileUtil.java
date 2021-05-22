@@ -14,4 +14,8 @@ public class JFileUtil {
         org.apache.commons.io.FileUtils.
                 copyDirectory(new File(f1), new File(f2), fileFilter);
     }
+
+    public static void rmTree( String f2) throws IOException {
+    org.apache.commons.io.FileUtils.deleteDirectory(new File(f2));
+    }
 }
