@@ -19,10 +19,12 @@ public class GitRepoRegister {
 
     public GitRepoRegister(RepoCtx ctx) {
         this.ctx = ctx;
+        this.ctx.init();
     }
 
 
     public void init() throws Exception {
+        System.out.println(ctx.GitBasePkg);
         File file = new File(ctx.GitBasePkg);
         file.mkdirs();
         System.out.println(ctx.GitUri);
@@ -34,7 +36,7 @@ public class GitRepoRegister {
             File temp = new File(pjArray[1]);
             if (!temp.exists()) {
                 temp.mkdirs();
-                JFileUtil.copyTree(pjArray[0], RepoCtx.GitBasePkg + File.separator + pjArray[1], JFileUtil.PJ_DES_EXCLUDE);
+                JFileUtil.copyTree(pjArray[0], ctx.GitBasePkg + File.separator + pjArray[1], JFileUtil.PJ_DES_EXCLUDE);
             }
         }
     }
@@ -64,7 +66,7 @@ public class GitRepoRegister {
         syncProject.stream().forEach(s -> {
             String[] split = s.split(",");
             try {
-                repoDes.accept(split[0], RepoCtx.GitBasePkg + File.separator +split[1]);
+                repoDes.accept(split[0], ctx.GitBasePkg + File.separator +split[1]);
             } catch (Exception e) {
                 e.printStackTrace();
             }

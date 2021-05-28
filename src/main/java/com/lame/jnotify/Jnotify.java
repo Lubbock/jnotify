@@ -38,8 +38,8 @@ public class Jnotify {
         return observer;
     }
 
-    public static void monitor() throws Exception{
-        final RepoCtx ctx = new RepoCtx();
+    public static void monitor(String prop) throws Exception{
+        final RepoCtx ctx = new RepoCtx(prop);
         GitRepoRegister gitRepoRegister = new GitRepoRegister(ctx);
         gitRepoRegister.init();
         List<FileAlterationObserver> observers = new ArrayList<>();
@@ -112,6 +112,9 @@ public class Jnotify {
      * 3 2 + 启动监控
      * **/
     public static void main(String[] args) throws Exception{
+        for (String arg : args) {
+            System.out.println(arg);
+        }
         if (args.length > 0) {
             String arg = args[0];
             switch (arg) {
@@ -127,10 +130,11 @@ public class Jnotify {
                     break;
                 case "--pull-monitor":
                     System.out.println("开始监控本地文件");
+                    System.out.println("加载配置文件" + args[1]);
                     PropertiesUtils.initConfig(args[1]);
                     GitRepoRegister.PJ_PATH = args[2];
                     inspectMe(args[1]);
-                    monitor();
+                    monitor( args[1]);
                     break;
                 default:
                     System.out.println("不合法参数！");

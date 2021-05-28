@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class PropertiesUtils {
-    static Properties properties;
+     static Properties properties;
     public static void initConfig(String propPath) {
         properties = new Properties();
+        System.out.println("加载配置文件：propPath");
         try (FileInputStream fis = new FileInputStream(propPath)) {
             properties.load(fis);
+            System.out.println(properties.getProperty("repo.base.package"));
         } catch (IOException e) {
             e.printStackTrace();
         }

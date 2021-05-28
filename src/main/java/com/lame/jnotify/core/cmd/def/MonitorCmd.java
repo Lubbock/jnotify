@@ -18,7 +18,7 @@ public class MonitorCmd implements Command {
     ctx.channelHandlerContext()
         .writeAndFlush("开始监控本地文件夹 propPath:" + cmdArray.get(1) + " pjpath:" + cmdArray.get(2));
         try {
-            Jnotify.monitor();
+            Jnotify.monitor(properPath);
         } catch (Exception e) {
             e.printStackTrace();
       ctx.channelHandlerContext().writeAndFlush("monitor failed ");

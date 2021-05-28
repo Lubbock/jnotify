@@ -58,4 +58,9 @@ public class SingProcCli implements Runnable {
             close();
         }
     }
+
+    public static void main(String[] args) {
+        SingProcCli singProcCli = new SingProcCli("/media/lame/0DD80F300DD80F30/sanbox/cfg/pkg/jnotify.properties");
+        singProcCli.run();
+    }
 }
