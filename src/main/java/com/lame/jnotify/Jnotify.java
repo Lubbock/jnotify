@@ -7,6 +7,7 @@ import com.lame.jnotify.core.execute.ScheduledConsumerExecute;
 import com.lame.jnotify.core.jobs.GitSyncJob;
 import com.lame.jnotify.core.jobs.Job;
 import com.lame.jnotify.core.jobs.RepoSyncJob;
+import com.lame.jnotify.core.lock.StateLock;
 import com.lame.jnotify.core.register.GitRepoRegister;
 import com.lame.jnotify.core.register.RepoCtx;
 import com.lame.jnotify.utils.JFileUtil;
@@ -66,7 +67,10 @@ public class Jnotify {
 
     public static void realsync() throws Exception {
         System.out.println("开启同步远程文件");
-        final RepoCtx ctx = new RepoCtx();
+        RepoCtx ctx = new RepoCtx();
+        if (StateLock.Now.equals(StateLock.JnotifyState.Normal)) {
+            ctx = new RepoCtx(StateLock.propPath);
+        }
         GitRepoRegister gitRepoRegister = new GitRepoRegister(ctx);
         gitRepoRegister.init();
         RepoSyncJob repoSyncJob = new RepoSyncJob(ctx);
@@ -131,6 +135,9 @@ public class Jnotify {
                 case "--pull-monitor":
                     System.out.println("开始监控本地文件");
                     System.out.println("加载配置文件" + args[1]);
+                    StateLock.Now = StateLock.JnotifyState.Normal;
+                    StateLock.propPath = args[1];
+                    StateLock.pjPath = args[2];
                     PropertiesUtils.initConfig(args[1]);
                     GitRepoRegister.PJ_PATH = args[2];
                     inspectMe(args[1]);

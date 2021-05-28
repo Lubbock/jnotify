@@ -4,6 +4,7 @@ import com.lame.jnotify.Jnotify;
 import com.lame.jnotify.core.cmd.model.CmdCtx;
 import com.lame.jnotify.core.cmd.Command;
 import com.lame.jnotify.core.cmd.Help;
+import com.lame.jnotify.core.lock.StateLock;
 import com.lame.jnotify.core.register.GitRepoRegister;
 import com.lame.jnotify.utils.PropertiesUtils;
 
@@ -27,7 +28,11 @@ public class RealsyncCmd implements Command, Help {
             }
         }else {
             //初始化所有目录
-            GitRepoRegister.PJ_PATH = "./project";
+            if (!StateLock.Now.equals(StateLock.JnotifyState.CLOSE)) {
+                GitRepoRegister.PJ_PATH = StateLock.pjPath;
+            }else {
+                GitRepoRegister.PJ_PATH = "./project";
+            }
             try {
                 Jnotify.realsync();
                 ctx.channelHandlerContext().write("初始化本地文件夹");
