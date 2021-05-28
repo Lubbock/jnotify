@@ -1,4 +1,4 @@
-package com.lame.jnotify.clis.controller.handler;
+package com.lame.jnotify.clis.controller;
 
 import com.lame.jnotify.core.cmd.ClientDirect;
 import com.lame.jnotify.core.cmd.model.CmdCtx;

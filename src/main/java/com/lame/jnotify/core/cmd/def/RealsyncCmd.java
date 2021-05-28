@@ -35,7 +35,7 @@ public class RealsyncCmd implements Command, Help {
             }
             try {
                 Jnotify.realsync();
-                ctx.channelHandlerContext().write("初始化本地文件夹");
+                ctx.channelHandlerContext().write("开始同步文件");
             } catch (Exception e) {
                 ctx.channelHandlerContext().write(e.getMessage());
                 e.printStackTrace();
