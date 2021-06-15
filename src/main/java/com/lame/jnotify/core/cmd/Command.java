@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface Command {
     void execute(CmdCtx ctx, List<String> cmdArray);
+
+    String getHelpInfo();
 }

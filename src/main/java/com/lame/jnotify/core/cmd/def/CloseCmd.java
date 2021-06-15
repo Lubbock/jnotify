@@ -16,4 +16,9 @@ public class CloseCmd implements Command {
         ctx.channelHandlerContext().flush();
         future.addListener(ChannelFutureListener.CLOSE);
     }
+
+    @Override
+    public String getHelpInfo() {
+        return "描述：关闭服务： 参数：close";
+    }
 }

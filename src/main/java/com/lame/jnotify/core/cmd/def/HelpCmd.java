@@ -21,4 +21,9 @@ public class HelpCmd implements Command {
     public void execute(CmdCtx ctx, List<String> cmdArray) {
         ctx.channelHandlerContext().writeAndFlush(banner + helpInfo);
     }
+
+    @Override
+    public String getHelpInfo() {
+        return "描述：help info： 参数：help";
+    }
 }

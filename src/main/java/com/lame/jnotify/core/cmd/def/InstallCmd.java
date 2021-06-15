@@ -17,4 +17,8 @@ public class InstallCmd implements Command {
             e.printStackTrace();
         }
     }
+    @Override
+    public String getHelpInfo() {
+        return "描述：关闭服务： 参数：install";
+    }
 }
