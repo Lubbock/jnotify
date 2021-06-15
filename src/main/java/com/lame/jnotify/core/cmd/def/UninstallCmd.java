@@ -24,4 +24,9 @@ public class UninstallCmd implements Command {
       cmdCtx.channelHandlerContext().writeAndFlush("卸载失败");
     }
     }
+
+    @Override
+    public String getHelpInfo() {
+        return null;
+    }
 }

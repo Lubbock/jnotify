@@ -44,6 +44,11 @@ public class RealsyncCmd implements Command, Help {
     }
 
     @Override
+    public String getHelpInfo() {
+        return null;
+    }
+
+    @Override
     public String helpInfo() {
         return "\n"
                 +" git仓库同步到本地目录，会覆盖掉本地的文件夹 参数大于2的时候，指定配置文件 \n"

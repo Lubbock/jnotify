@@ -26,7 +26,12 @@ public class ResetCmd implements MacroCommand {
     StateLock.Now = StateLock.JnotifyState.Normal;
     }
 
-    @Override
+  @Override
+  public String getHelpInfo() {
+    return null;
+  }
+
+  @Override
     public void add(Command cmd) {
 
     }

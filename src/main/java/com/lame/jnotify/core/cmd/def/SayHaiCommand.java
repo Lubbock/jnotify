@@ -12,4 +12,9 @@ public class SayHaiCommand implements Command {
         System.out.println("sayhai");
         ctx.channelHandlerContext().write("未找到对应指令！\n");
     }
+
+    @Override
+    public String getHelpInfo() {
+        return null;
+    }
 }
